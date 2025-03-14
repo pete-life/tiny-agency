@@ -9,7 +9,7 @@ const Hero = () => {
   const { t } = useLanguage();
   
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-32 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center pt-40 md:pt-48 overflow-hidden">
       {/* Background gradient */}
       <div 
         className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(255,255,255,1)_60%,rgba(247,247,252,1)_100%)] fade-mask"
@@ -27,7 +27,7 @@ const Hero = () => {
       />
       
       {/* Language switcher (top right) */}
-      <div className="absolute top-8 right-8 z-10">
+      <div className="absolute top-8 right-8 md:right-16 z-30">
         <LanguageSwitcher />
       </div>
       
@@ -60,8 +60,10 @@ const Hero = () => {
         </div>
         
         <div className="animate-slide-up delay-300">
-          <GlassCard className="max-w-4xl mx-auto">
-            <WorkflowVisual />
+          <GlassCard className="max-w-4xl mx-auto overflow-hidden">
+            <div className="overflow-x-auto scrollbar-none">
+              <WorkflowVisual />
+            </div>
           </GlassCard>
         </div>
         
