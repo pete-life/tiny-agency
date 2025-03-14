@@ -17,11 +17,22 @@ interface WorkflowNodeProps {
   color: string;
   delay: number;
   position: number;
+  activeStep: number;
+  stepIndex: number;
 }
 
-const WorkflowNode = ({ icon, label, color, delay, position }: WorkflowNodeProps) => {
+const WorkflowNode = ({ 
+  icon, 
+  label, 
+  color, 
+  delay, 
+  position, 
+  activeStep,
+  stepIndex
+}: WorkflowNodeProps) => {
   const [visible, setVisible] = useState(false);
-
+  const isActive = activeStep >= stepIndex;
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(true);
@@ -33,23 +44,34 @@ const WorkflowNode = ({ icon, label, color, delay, position }: WorkflowNodeProps
   return (
     <div 
       className={cn(
-        "absolute transition-all duration-500 ease-out flex flex-col items-center",
+        "absolute transition-all duration-700 ease-out flex flex-col items-center",
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
-        position === 0 ? "left-0" : 
-        position === 4 ? "right-0" : 
-        `left-[${position * 25}%]`
       )}
       style={{ left: `${position * 25}%` }}
     >
       <div 
-        className="w-14 h-14 rounded-full flex items-center justify-center mb-2 shadow-md"
-        style={{ backgroundColor: color }}
+        className={cn(
+          "w-14 h-14 rounded-full flex items-center justify-center mb-2 transition-all duration-300",
+          isActive ? "shadow-md scale-110" : "shadow-sm scale-100 opacity-80"
+        )}
+        style={{ 
+          backgroundColor: isActive ? color : "#f1f1f4",
+          transform: isActive ? "translateY(-4px)" : "translateY(0)"
+        }}
       >
-        <div className="text-white">
+        <div className={cn(
+          "transition-colors duration-300",
+          isActive ? "text-white" : "text-zinc-400"
+        )}>
           {icon}
         </div>
       </div>
-      <span className="text-xs font-medium text-zinc-700">{label}</span>
+      <span className={cn(
+        "text-xs font-medium transition-colors duration-300",
+        isActive ? "text-zinc-800" : "text-zinc-500"
+      )}>
+        {label}
+      </span>
     </div>
   );
 };
@@ -58,8 +80,8 @@ const WorkflowArrow = ({ startPos, visible }: { startPos: number; visible: boole
   return (
     <div 
       className={cn(
-        "absolute h-0.5 bg-zinc-300 transition-all duration-300 ease-out",
-        visible ? "w-[22%] opacity-100" : "w-0 opacity-0"
+        "absolute h-0.5 transition-all duration-700 ease-out",
+        visible ? "w-[22%] opacity-100 bg-gradient-to-r from-zinc-300 to-zinc-400" : "w-0 opacity-0 bg-zinc-200"
       )}
       style={{ 
         left: `${startPos * 25 + 7}%`, 
@@ -69,8 +91,8 @@ const WorkflowArrow = ({ startPos, visible }: { startPos: number; visible: boole
     >
       <ArrowRight 
         className={cn(
-          "absolute -right-2 text-zinc-300 transition-all duration-300",
-          visible ? "opacity-100" : "opacity-0"
+          "absolute -right-2 transition-all duration-500",
+          visible ? "opacity-100 text-zinc-400" : "opacity-0 text-zinc-200"
         )} 
         size={16} 
       />
@@ -90,23 +112,24 @@ const WorkflowVisual = () => {
   }, []);
 
   const nodes = [
-    { icon: <Zap size={24} />, label: "Trigger", color: "#8B5CF6", position: 0, delay: 300 },
-    { icon: <Mail size={24} />, label: "Email", color: "#F59E0B", position: 1, delay: 800 },
-    { icon: <Database size={24} />, label: "Database", color: "#3B82F6", position: 2, delay: 1300 },
-    { icon: <FileText size={24} />, label: "Document", color: "#10B981", position: 3, delay: 1800 },
-    { icon: <CheckCircle size={24} />, label: "Complete", color: "#EC4899", position: 4, delay: 2300 }
+    { icon: <Zap size={24} />, label: "Trigger", color: "#8B5CF6", position: 0, delay: 300, stepIndex: 0 },
+    { icon: <Mail size={24} />, label: "Email", color: "#F59E0B", position: 1, delay: 800, stepIndex: 1 },
+    { icon: <Database size={24} />, label: "Database", color: "#3B82F6", position: 2, delay: 1300, stepIndex: 2 },
+    { icon: <FileText size={24} />, label: "Document", color: "#10B981", position: 3, delay: 1800, stepIndex: 3 },
+    { icon: <CheckCircle size={24} />, label: "Complete", color: "#EC4899", position: 4, delay: 2300, stepIndex: 4 }
   ];
 
   return (
     <div className="relative w-full h-44 my-12">
       {/* Connection line */}
-      <div className="absolute left-[7%] right-[7%] top-[25%] h-0.5 bg-zinc-200 transform -translate-y-1/2"></div>
+      <div className="absolute left-[7%] right-[7%] top-[25%] h-0.5 bg-zinc-100 transform -translate-y-1/2 rounded-full"></div>
       
       {/* Workflow nodes */}
       {nodes.map((node, index) => (
         <WorkflowNode 
           key={index}
           {...node}
+          activeStep={step}
         />
       ))}
       
@@ -119,11 +142,11 @@ const WorkflowVisual = () => {
       {/* Animated notification */}
       <div 
         className={cn(
-          "absolute right-8 top-8 flex items-center gap-2 bg-white/80 backdrop-blur-sm shadow-md rounded-lg px-3 py-2 transition-all duration-500",
-          step === 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          "absolute right-8 top-8 flex items-center gap-2 bg-white/90 backdrop-blur-sm shadow-md rounded-lg px-3 py-2 transition-all duration-700",
+          step === 4 ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-4 scale-95"
         )}
       >
-        <BellRing size={16} className="text-zinc-500" />
+        <BellRing size={16} className="text-pink-500" />
         <span className="text-xs font-medium text-zinc-800">Process completed!</span>
       </div>
     </div>
