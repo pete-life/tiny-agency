@@ -1,5 +1,6 @@
 
 import GlassCard from "../ui/GlassCard";
+import WorkflowVisual from "../ui/WorkflowVisual";
 import { ArrowDown } from "lucide-react";
 
 const Hero = () => {
@@ -51,18 +52,7 @@ const Hero = () => {
         
         <div className="animate-slide-up delay-300">
           <GlassCard className="max-w-4xl mx-auto">
-            <div className="aspect-video rounded-lg overflow-hidden bg-zinc-100 flex items-center justify-center">
-              <div className="text-center p-6">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white flex items-center justify-center shadow-sm border border-zinc-100">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 12H8M16 12L12 8M16 12L12 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-medium mb-2">Automation Platform Demo</h3>
-                <p className="text-zinc-600">Preview image or video would appear here</p>
-              </div>
-            </div>
+            <WorkflowVisual />
           </GlassCard>
         </div>
         
