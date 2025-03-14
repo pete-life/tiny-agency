@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { 
-  ArrowRight, 
+  ArrowRightIcon, 
   Zap, 
   Mail, 
   Database, 
@@ -10,6 +10,7 @@ import {
   BellRing 
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface WorkflowNodeProps {
   icon: React.ReactNode;
@@ -32,6 +33,7 @@ const WorkflowNode = ({
 }: WorkflowNodeProps) => {
   const [visible, setVisible] = useState(false);
   const isActive = activeStep >= stepIndex;
+  const { t } = useLanguage();
   
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -80,28 +82,35 @@ const WorkflowArrow = ({ startPos, visible }: { startPos: number; visible: boole
   return (
     <div 
       className={cn(
-        "absolute h-0.5 transition-all duration-700 ease-out",
-        visible ? "w-[22%] opacity-100 bg-gradient-to-r from-zinc-300 to-zinc-400" : "w-0 opacity-0 bg-zinc-200"
+        "absolute h-0.5 transition-all duration-700 ease-out flex items-center",
+        visible ? "w-[22%] opacity-100" : "w-0 opacity-0"
       )}
       style={{ 
         left: `${startPos * 25 + 7}%`, 
         top: '25%',
-        transform: 'translateY(-50%)'
+        background: "linear-gradient(90deg, #d4d4d8 0%, #a1a1aa 100%)",
       }}
     >
-      <ArrowRight 
-        className={cn(
-          "absolute -right-2 transition-all duration-500",
-          visible ? "opacity-100 text-zinc-400" : "opacity-0 text-zinc-200"
-        )} 
-        size={16} 
-      />
+      <div className={cn(
+        "absolute right-0 transition-all duration-500 animate-pulse",
+        visible ? "opacity-100" : "opacity-0"
+      )}>
+        <ArrowRightIcon 
+          className="text-zinc-500"
+          style={{
+            transform: "translateX(50%)",
+            filter: "drop-shadow(0 1px 1px rgba(0,0,0,0.1))"
+          }}
+          size={18} 
+        />
+      </div>
     </div>
   );
 };
 
 const WorkflowVisual = () => {
   const [step, setStep] = useState(0);
+  const { t } = useLanguage();
   
   useEffect(() => {
     const interval = setInterval(() => {
@@ -112,11 +121,11 @@ const WorkflowVisual = () => {
   }, []);
 
   const nodes = [
-    { icon: <Zap size={24} />, label: "Trigger", color: "#8B5CF6", position: 0, delay: 300, stepIndex: 0 },
-    { icon: <Mail size={24} />, label: "Email", color: "#F59E0B", position: 1, delay: 800, stepIndex: 1 },
-    { icon: <Database size={24} />, label: "Database", color: "#3B82F6", position: 2, delay: 1300, stepIndex: 2 },
-    { icon: <FileText size={24} />, label: "Document", color: "#10B981", position: 3, delay: 1800, stepIndex: 3 },
-    { icon: <CheckCircle size={24} />, label: "Complete", color: "#EC4899", position: 4, delay: 2300, stepIndex: 4 }
+    { icon: <Zap size={24} />, label: t('workflow.trigger'), color: "#8B5CF6", position: 0, delay: 300, stepIndex: 0 },
+    { icon: <Mail size={24} />, label: t('workflow.email'), color: "#F59E0B", position: 1, delay: 800, stepIndex: 1 },
+    { icon: <Database size={24} />, label: t('workflow.database'), color: "#3B82F6", position: 2, delay: 1300, stepIndex: 2 },
+    { icon: <FileText size={24} />, label: t('workflow.document'), color: "#10B981", position: 3, delay: 1800, stepIndex: 3 },
+    { icon: <CheckCircle size={24} />, label: t('workflow.complete'), color: "#EC4899", position: 4, delay: 2300, stepIndex: 4 }
   ];
 
   return (
@@ -147,7 +156,7 @@ const WorkflowVisual = () => {
         )}
       >
         <BellRing size={16} className="text-pink-500" />
-        <span className="text-xs font-medium text-zinc-800">Process completed!</span>
+        <span className="text-xs font-medium text-zinc-800">{t('workflow.notification')}</span>
       </div>
     </div>
   );

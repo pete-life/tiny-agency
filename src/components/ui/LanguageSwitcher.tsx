@@ -15,16 +15,20 @@ const LanguageSwitcher = () => {
     setIsOpen(false);
   };
 
+  const getLanguageName = (lang: 'en' | 'da') => {
+    return lang === 'en' ? 'English' : 'Dansk';
+  };
+
   return (
     <div className="relative">
       <button
         onClick={toggleDropdown}
-        className="flex items-center gap-1 px-2 py-1 rounded-full text-sm font-medium text-zinc-700 hover:text-zinc-900 transition-colors"
+        className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-zinc-100 text-sm font-medium text-zinc-700 hover:text-zinc-900 hover:bg-white/95 shadow-sm transition-all"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <Globe size={16} />
-        <span className="uppercase">{language}</span>
+        <Globe size={16} className="text-zinc-500" />
+        <span className="font-medium">{getLanguageName(language)}</span>
       </button>
 
       {isOpen && (
