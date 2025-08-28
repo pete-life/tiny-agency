@@ -131,9 +131,8 @@ body {
 .code-line {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     text-align: center;
-    padding-left: calc(50vw - 325px);
 }
 
 .code-block {
