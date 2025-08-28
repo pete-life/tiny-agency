@@ -205,9 +205,9 @@
                 line3.innerHTML = '   ' + optimizeText.slice(0, i + 1) + '<span class="typing-cursor">|</span>';
             }
             
-            // Convert to link and add the rest (but don't trigger scroll)
+            // Convert to styled link but without href to prevent scroll
             await new Promise(resolve => setTimeout(resolve, 100));
-            let linkContent = '<a href="#about" class="underlined-link">optimize</a>';
+            let linkContent = '<span class="underlined-link clickable-link">optimize</span>';
             line3.innerHTML = '   ' + linkContent + '<span class="typing-cursor">|</span>';
             
             // Type the remaining text
@@ -216,6 +216,22 @@
                 await new Promise(resolve => setTimeout(resolve, 25));
                 line3.innerHTML = '   ' + linkContent + remaining.slice(0, i + 1) + '<span class="typing-cursor">|</span>';
             }
+            
+            // Add click handler for the optimize link after typing
+            setTimeout(() => {
+                const optimizeLink = document.querySelector('.clickable-link');
+                if (optimizeLink) {
+                    optimizeLink.addEventListener('click', () => {
+                        const target = document.querySelector('#about');
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
+                }
+            }, 500);
             
             // Typing animation complete - allow scrolling
             isTyping = false;
