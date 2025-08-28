@@ -19,8 +19,7 @@
                 <div class="code-block">
                     <div class="code-text" id="line1"></div>
                     <div class="code-text" id="line2"></div>
-                    <div class="code-text" id="line3"></div>
-                    <div class="typing-cursor">|</div>
+                    <div class="code-text" id="line3"><span class="typing-cursor">|</span></div>
                 </div>
             </div>
         </div>
@@ -192,29 +191,22 @@
             
             const line3 = document.getElementById('line3');
             
-            // Type the leading spaces and optimize text
-            let line3Content = '   ';
-            for (let char of line3Content) {
-                await new Promise(resolve => setTimeout(resolve, 25));
-                line3.innerHTML += char;
-            }
-            
-            // Type "optimize" character by character
+            // Type "optimize" character by character with cursor
             let optimizeText = 'optimize';
             for (let i = 0; i < optimizeText.length; i++) {
                 await new Promise(resolve => setTimeout(resolve, 25));
-                line3.innerHTML = '   ' + optimizeText.slice(0, i + 1);
+                line3.innerHTML = '   ' + optimizeText.slice(0, i + 1) + '<span class="typing-cursor">|</span>';
             }
             
             // Convert to link and add the rest
-            line3.innerHTML = '   <a href="#about" class="underlined-link">optimize</a>';
+            let linkContent = '<a href="#about" class="underlined-link">optimize</a>';
+            line3.innerHTML = '   ' + linkContent + '<span class="typing-cursor">|</span>';
             
             // Type the remaining text
             let remaining = '(your_business)';
-            let currentContent = line3.innerHTML;
             for (let i = 0; i < remaining.length; i++) {
                 await new Promise(resolve => setTimeout(resolve, 25));
-                line3.innerHTML = currentContent + remaining.slice(0, i + 1);
+                line3.innerHTML = '   ' + linkContent + remaining.slice(0, i + 1) + '<span class="typing-cursor">|</span>';
             }
             
             // Keep cursor blinking permanently at the end
