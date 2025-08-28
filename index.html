@@ -19,7 +19,7 @@
                 <div class="code-block">
                     <div class="code-text" id="line1"></div>
                     <div class="code-text" id="line2"></div>
-                    <div class="code-text" id="line3"><span class="typing-cursor">|</span></div>
+                    <div class="code-text" id="line3"></div>
                 </div>
             </div>
         </div>
@@ -171,16 +171,19 @@
             });
         }
 
-        // Typing animation for hero text
-        function typeText(element, text, speed = 50) {
+        // Typing animation for hero text with cursor
+        function typeText(element, text, speed = 50, showCursor = true) {
             return new Promise((resolve) => {
                 let i = 0;
                 element.innerHTML = '';
                 const timer = setInterval(() => {
                     if (i < text.length) {
-                        element.innerHTML += text.charAt(i);
+                        const currentText = text.substring(0, i + 1);
+                        element.innerHTML = currentText + (showCursor ? '<span class="typing-cursor">|</span>' : '');
                         i++;
                     } else {
+                        // Remove cursor when done typing this element
+                        element.innerHTML = text;
                         clearInterval(timer);
                         resolve();
                     }
@@ -190,36 +193,37 @@
 
         // Initialize typing animation on page load
         window.addEventListener('load', async () => {
-            const cursor = document.querySelector('.typing-cursor');
-            cursor.style.display = 'inline';
-            
-            // Type each line sequentially
-            await typeText(document.getElementById('line1'), 'TinyAgency.', 30);
+            // Type each line sequentially with cursor
+            await typeText(document.getElementById('line1'), 'TinyAgency.', 30, true);
             await new Promise(resolve => setTimeout(resolve, 100));
             
-            await typeText(document.getElementById('line2'), '  build().automate().', 25);
+            await typeText(document.getElementById('line2'), '  build().automate().', 25, true);
             await new Promise(resolve => setTimeout(resolve, 100));
             
             const line3 = document.getElementById('line3');
             
-            // Type "optimize" character by character with cursor
-            let optimizeText = 'optimize';
+            // Type line 3 in parts to handle the link
+            // First type the spaces and "optimize" with cursor
+            let optimizeText = '   optimize';
             for (let i = 0; i < optimizeText.length; i++) {
                 await new Promise(resolve => setTimeout(resolve, 25));
-                line3.innerHTML = '   ' + optimizeText.slice(0, i + 1) + '<span class="typing-cursor">|</span>';
+                line3.innerHTML = optimizeText.slice(0, i + 1) + '<span class="typing-cursor">|</span>';
             }
             
-            // Convert to styled link but without href to prevent scroll
+            // Convert "optimize" to link but keep cursor
             await new Promise(resolve => setTimeout(resolve, 100));
-            let linkContent = '<span class="underlined-link clickable-link">optimize</span>';
-            line3.innerHTML = '   ' + linkContent + '<span class="typing-cursor">|</span>';
+            line3.innerHTML = '   <span class="underlined-link clickable-link">optimize</span><span class="typing-cursor">|</span>';
             
-            // Type the remaining text
+            // Type the remaining text "(your_business)" with cursor
             let remaining = '(your_business)';
+            let linkContent = '   <span class="underlined-link clickable-link">optimize</span>';
             for (let i = 0; i < remaining.length; i++) {
                 await new Promise(resolve => setTimeout(resolve, 25));
-                line3.innerHTML = '   ' + linkContent + remaining.slice(0, i + 1) + '<span class="typing-cursor">|</span>';
+                line3.innerHTML = linkContent + remaining.slice(0, i + 1) + '<span class="typing-cursor">|</span>';
             }
+            
+            // Keep cursor blinking at the end permanently
+            line3.innerHTML = linkContent + remaining + '<span class="typing-cursor">|</span>';
             
             // Add click handler for the optimize link after typing
             setTimeout(() => {
