@@ -1,3 +1,31 @@
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Aeonik Mono';
+    src: url('fonts/AeonikMono-Bold.woff2') format('woff2'),
+         url('fonts/AeonikMono-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aeonik Pro';
+    src: url('fonts/AeonikPro-Light.woff2') format('woff2'),
+         url('fonts/AeonikPro-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Aeonik Pro';
+    src: url('fonts/AeonikPro-Regular.woff2') format('woff2'),
+         url('fonts/AeonikPro-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* CSS Reset and Base Styles */
 *,
 *::before,
@@ -15,7 +43,7 @@ html {
 }
 
 body {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-family: 'Aeonik Mono', 'Courier New', monospace;
     font-weight: 400;
     color: #000000;
     background-color: #ffffff;
@@ -30,7 +58,7 @@ body {
     --color-gray: #666666;
     --color-gray-light: #999999;
     
-    --font-family: 'JetBrains Mono', 'Courier New', monospace;
+    --font-family: 'Aeonik Mono', 'Courier New', monospace;
     --font-weight-light: 300;
     --font-weight-regular: 400;
     --font-weight-medium: 500;
