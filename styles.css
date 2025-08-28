@@ -149,7 +149,7 @@ body {
 }
 
 .typing-cursor {
-    display: none;
+    display: inline;
     animation: blink 1s infinite;
     font-weight: var(--font-weight-light);
 }
