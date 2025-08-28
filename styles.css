@@ -145,8 +145,8 @@ body {
     white-space: pre;
 }
 
-.code-text:last-child::after {
-    content: '|';
+.typing-cursor {
+    display: none;
     animation: blink 1s infinite;
     font-weight: var(--font-weight-light);
     margin-left: 0.2em;

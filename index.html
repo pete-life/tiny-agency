@@ -17,9 +17,10 @@
         <div class="container">
             <div class="code-line">
                 <div class="code-block">
-                    <div class="code-text">TinyAgency.</div>
-                    <div class="code-text">&nbsp;&nbsp;build().automate().</div>
-                    <div class="code-text">&nbsp;&nbsp;&nbsp;<a href="#about" class="underlined-link">optimize</a>(your_business)</div>
+                    <div class="code-text" id="line1"></div>
+                    <div class="code-text" id="line2"></div>
+                    <div class="code-text" id="line3"></div>
+                    <div class="typing-cursor">|</div>
                 </div>
             </div>
         </div>
@@ -159,6 +160,43 @@
                 }, 2000);
             });
         }
+
+        // Typing animation for hero text
+        function typeText(element, text, speed = 50) {
+            return new Promise((resolve) => {
+                let i = 0;
+                element.innerHTML = '';
+                const timer = setInterval(() => {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(timer);
+                        resolve();
+                    }
+                }, speed);
+            });
+        }
+
+        // Initialize typing animation on page load
+        window.addEventListener('load', async () => {
+            const cursor = document.querySelector('.typing-cursor');
+            cursor.style.display = 'inline';
+            
+            // Type each line sequentially
+            await typeText(document.getElementById('line1'), 'TinyAgency.', 80);
+            await new Promise(resolve => setTimeout(resolve, 200)); // Brief pause
+            
+            await typeText(document.getElementById('line2'), '  build().automate().', 60);
+            await new Promise(resolve => setTimeout(resolve, 200));
+            
+            const line3 = document.getElementById('line3');
+            await typeText(line3, '   ', 60); // Leading spaces
+            line3.innerHTML += '<a href="#about" class="underlined-link">optimize</a>';
+            await typeText(line3, line3.innerHTML + '(your_business)', 60);
+            
+            // Keep cursor blinking permanently at the end
+        });
 
         // Intersection Observer for fade-in animations
         const observerOptions = {
