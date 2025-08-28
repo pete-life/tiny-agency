@@ -133,6 +133,10 @@
         // Track if typing animation is in progress
         let isTyping = true;
         
+        // Prevent any scrolling during page load
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(0, 0);
+        
         // Smooth scrolling for anchor links (but not during typing)
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -235,6 +239,10 @@
             
             // Typing animation complete - allow scrolling
             isTyping = false;
+            // Re-enable smooth scrolling after typing
+            setTimeout(() => {
+                document.documentElement.style.scrollBehavior = 'smooth';
+            }, 100);
         });
 
         // Intersection Observer for fade-in animations
