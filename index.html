@@ -184,16 +184,38 @@
             cursor.style.display = 'inline';
             
             // Type each line sequentially
-            await typeText(document.getElementById('line1'), 'TinyAgency.', 80);
-            await new Promise(resolve => setTimeout(resolve, 200)); // Brief pause
+            await typeText(document.getElementById('line1'), 'TinyAgency.', 30);
+            await new Promise(resolve => setTimeout(resolve, 100));
             
-            await typeText(document.getElementById('line2'), '  build().automate().', 60);
-            await new Promise(resolve => setTimeout(resolve, 200));
+            await typeText(document.getElementById('line2'), '  build().automate().', 25);
+            await new Promise(resolve => setTimeout(resolve, 100));
             
             const line3 = document.getElementById('line3');
-            await typeText(line3, '   ', 60); // Leading spaces
-            line3.innerHTML += '<a href="#about" class="underlined-link">optimize</a>';
-            await typeText(line3, line3.innerHTML + '(your_business)', 60);
+            
+            // Type the leading spaces and optimize text
+            let line3Content = '   ';
+            for (let char of line3Content) {
+                await new Promise(resolve => setTimeout(resolve, 25));
+                line3.innerHTML += char;
+            }
+            
+            // Type "optimize" character by character
+            let optimizeText = 'optimize';
+            for (let i = 0; i < optimizeText.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 25));
+                line3.innerHTML = '   ' + optimizeText.slice(0, i + 1);
+            }
+            
+            // Convert to link and add the rest
+            line3.innerHTML = '   <a href="#about" class="underlined-link">optimize</a>';
+            
+            // Type the remaining text
+            let remaining = '(your_business)';
+            let currentContent = line3.innerHTML;
+            for (let i = 0; i < remaining.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 25));
+                line3.innerHTML = currentContent + remaining.slice(0, i + 1);
+            }
             
             // Keep cursor blinking permanently at the end
         });
